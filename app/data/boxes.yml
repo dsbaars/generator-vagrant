@@ -1,0 +1,11 @@
+ubuntu:
+    precise:
+        parallels:
+            name: parallels/ubuntu-12.04
+            url: https://vagrantcloud.com/parallels/boxes/ubuntu-12.04/versions/4/providers/parallels.box
+    trusty:
+        ubuntu:
+            name: ubuntu/trusty64
+        parallels:
+            name: parallels/ubuntu-14.04
+            url: https://vagrantcloud.com/parallels/boxes/ubuntu-14.04/versions/3/providers/parallels.box

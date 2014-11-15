@@ -1,0 +1,15 @@
+x1_micro:
+    cpus: 1
+    memory: 1024
+x1_small:
+    cpus: 1
+    memory: 2048
+x2_medium:
+    cpus: 2
+    memory: 4096
+x4_medium:
+    cpus: 2
+    memory: 4096
+x2_large:
+    cpus: 2
+    memory: 8192
