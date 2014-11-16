@@ -22,16 +22,16 @@ I would like to accomplish that this generator generates a Vagrant-file for the 
 
 ### Usage
 
-To install generator-vagrant-yeoman from npm, run:
+To install generator-vagrant from npm, run:
 
 ```bash
-npm install -g generator-vagrant-yeoman
+npm install -g generator-vagrant
 ```
 
 Finally, initiate the generator:
 
 ```bash
-yo vagrant-yeoman
+yo vagrant
 ```
 
 ## License
