@@ -5,15 +5,47 @@
 VAGRANTFILE_API_VERSION = "2"
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+    config.vm.box = "<%= vm.box %>"
+    config.vm.hostname = "<%= vm.hostname %>"
+    config.vm.network "public_network", bridge: 'en0'
+
     config.vm.provider "virtualbox" do |vb|
         vb.gui = true
-        vb.customize ["modifyvm", :id, "--memory", "2048"]
-        vb.customize ["modifyvm", :id, "--cpus", "4"]
+        vb.customize ["modifyvm", :id, "--memory", <%= vm.vMemory %>]
+        vb.customize ["modifyvm", :id, "--cpus", <%= vm.vCpu %>]
     end
 
     config.vm.provider "parallels" do |prl|
         prl.optimize_power_consumption = false
-        prl.memory = 2048
-        prl.cpus = 4
+        prl.memory = <%= vm.vMemory %>
+        prl.cpus =  <%= vm.vCpu %>
     end
+
+    config.vm.provision :shell, :inline => "sed -i 's/us.archive.ubuntu.com/ftp.snt.utwente.nl\\/pub\\/linux/g' /etc/apt/sources.list; export DEBIAN_FRONTEND=noninteractive && apt-get update"
+    <% if (settings.provisioner == "librarian-puppet") { %>
+    config.librarian_puppet.puppetfile_dir = "puppet"
+    <% } %>
+    <% if (settings.provisioner == "librarian-puppet" || settings.provisioner == "puppet_apply") { %>
+    config.vm.provision "puppet" do |puppet|
+        puppet.module_path = "puppet/modules"
+        puppet.hiera_config_path = "puppet/hiera.yml"
+        puppet.manifests_path = 'puppet'
+        puppet.manifest_file = 'site.pp'
+        puppet.options = "--verbose --debug --trace"
+    end
+    <% } %>
+    <% if (settings.provisioner == "berkshelf") { %>
+    config.berkshelf.berksfile_path = "chef/Berksfile"
+    config.berkshelf.enabled = true
+
+    config.omnibus.chef_version = :latest
+
+    config.vm.provision :chef_solo do |chef|
+        chef.data_bags_path = "chef/data_bags"
+        chef.roles_path = "chef/roles"
+
+        chef.json = {}
+        chef.run_list = []
+    end
+    <% } %>
 end

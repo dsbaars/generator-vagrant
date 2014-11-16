@@ -1,0 +1,19 @@
+providers:
+    virtualbox: ~
+    hyperv: ~
+    docker: ~
+    parallels:
+        plugins:
+            - vagrant-parallels
+        config:
+            optimize_power_consumption: false
+            update_guest_tools: true
+    google:
+        plugins:
+            - vagrant-google
+    aws:
+        plugins:
+            - vagrant-aws
+    rackspace:
+        plugins:
+            - vagrant-rackspace

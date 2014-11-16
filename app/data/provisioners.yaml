@@ -1,0 +1,20 @@
+provisioners:
+    - berkshelf
+    - librarian-puppet
+    - none
+    - shell
+    - chef_solo
+    - chef_client
+    - puppet_apply
+    - puppet_agent
+berkshelf:
+    plugins:
+        - vagrant-omnibus
+        - vagrant-berkshelf
+    commands:
+        - mkdir chef; cd chef; berks cookbook development chef; bundle install
+librarian-puppet:
+    plugins:
+        - vagrant-librarian-puppet
+    commands:
+        - mkdir puppet; cd puppet; librarian-puppet init
